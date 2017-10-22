@@ -15,9 +15,9 @@ class JianshulaSpider(CrawlSpider):
 
     rules = (
         Rule(LinkExtractor(allow=r'/p/'), callback='parse_article', follow=True),
-        Rule(LinkExtractor(allow=r'/users/[0-9a-z]*/following'), callback='parse_following', follow=True),
-        Rule(LinkExtractor(allow=r'/users/[0-9a-z]*/followers'), callback='parse_fans', follow=True),
-        Rule(LinkExtractor(allow=r'/u/[0-9a-z]*'), callback='parse_author', follow=True),
+        Rule(LinkExtractor(allow=r'/users/[0-9a-z]*/following'), callback='parse_following',follow=True),
+        Rule(LinkExtractor(allow=r'/users/[0-9a-z]*/followers'), callback='parse_fans',follow=True),
+        Rule(LinkExtractor(allow=r'/u/[0-9a-z]*'), callback='parse_author',follow=True),
     )
 
     def parse_article(self, response):
@@ -38,13 +38,15 @@ class JianshulaSpider(CrawlSpider):
     def parse_author(self,response):
         """parse author information"""
         loader = JianshuItemLoader(item=Author(),response=response)
+        loader.add_xpath('author_id','//div[@class="title"]/a/@href')
+        loader.add_xpath('author_name','//div[@class="title"]/a/text()')
         info = loader.nested_xpath('//div[@class="info"]')
         info.add_xpath('following_num','.//li[1]//p/text()')
         info.add_xpath('fans_num','.//li[2]//p/text()')
         info.add_xpath('article_num','.//li[3]//p/text()')
         info.add_xpath('char_num','.//li[4]//p/text()')
         info.add_xpath('likes', './/li[4]//p/text()')
-        loader.add_xpath('description','div[@class="js-intro"]/text()')
+        loader.add_xpath('description','//div[@class="js-intro"]/text()')
         return loader.load_item()
 
     def parse_following(self,response):
@@ -56,7 +58,7 @@ class JianshulaSpider(CrawlSpider):
                     url = response.urljoin('?page=%d' % i)
                     yield Request(url=url,callback=self.parse_following)
             else:
-                self.logger.log(20, 'can not find the following num %s' % response.url)
+                self.logger.info('can not find the following num %s' % response.url)
 
         item = Author()
         item['author_id'] = response.xpath('//div[@class="title"]/a/@href').extract_first()
