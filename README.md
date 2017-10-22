@@ -1,7 +1,8 @@
 # jianshu
 jianshu spider
 一个基于scrapy框架的简书爬虫，可结合redis进行分布式爬取（scrapy-redis框架)和使用mongodb进行item存储。
-测试环境：1 :win10 X64，miniconda3 虚拟环境，python3.5.4 或者python3.6.2
+测试环境1：win10 X64，miniconda3 虚拟环境，python3.5.4 或者python3.6.2
+
 测试环境2：centos7.3 X64,aliyun ECS, miniconda3，python3.5.4
 
     
