@@ -1,39 +1,18 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for jianshu project
-#
-# For simplicity, this file contains only settings considered important or
-# commonly used. You can find more settings consulting the documentation:
-#
-#     http://doc.scrapy.org/en/latest/topics/settings.html
-#     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-#     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
-
 import datetime
 
 BOT_NAME = 'jianshu'
-
 SPIDER_MODULES = ['jianshu.spiders']
 NEWSPIDER_MODULE = 'jianshu.spiders'
 
-
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 250
-
-
-# Configure a delay for requests for the same website (default: 0)
-# See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
-# See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
-# The download delay setting will honor only one of:
-CONCURRENT_REQUESTS_PER_DOMAIN = 200
-#CONCURRENT_REQUESTS_PER_IP = 16
+CONCURRENT_REQUESTS = 50
 
 # Disable cookies (enabled by default)
 COOKIES_ENABLED = False
@@ -48,38 +27,16 @@ TELNETCONSOLE_ENABLED = False
 #}
 
 # Enable or disable spider middlewares
-# See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 SPIDER_MIDDLEWARES = {
     'scrapy.spidermiddlewares.httperror.HttpErrorMiddleware':None,
     'jianshu.middlewares.JianshuHttpErrorMiddleware': 50,
 }
 
 # Enable or disable downloader middlewares
-# See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
   #  'jianshu.middlewares.JianshuMiddleware': 543,
 }
 
-# Enable or disable extensions
-# See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
-#EXTENSIONS = {
-#    'scrapy.extensions.telnet.TelnetConsole': None,
-#}
-
-# Configure item pipelines
-# See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-# Enable and configure the AutoThrottle extension (disabled by default)
-# See http://doc.scrapy.org/en/latest/topics/autothrottle.html
-#AUTOTHROTTLE_ENABLED = True
-# The initial download delay
-#AUTOTHROTTLE_START_DELAY = 5
-# The maximum download delay to be set in case of high latencies
-#AUTOTHROTTLE_MAX_DELAY = 60
-# The average number of requests Scrapy should be sending in parallel to
-# each remote server
-#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
-# Enable showing throttling stats for every response received:
-#AUTOTHROTTLE_DEBUG = False
 
 # Enable and configure HTTP caching (disabled by default)
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
@@ -98,9 +55,9 @@ JOBDIR = 'data1021'
 #CLOSESPIDER_PAGECOUNT = 1500
 
 
-
-
-
+"""
+REDIS_PARAMS  = {}
+# Use custom redis client class.
 # Enables scheduling storing requests queue in redis.
 SCHEDULER = "scrapy_redis.scheduler.Scheduler"
 
@@ -148,14 +105,13 @@ ITEM_PIPELINES = {
 # Specify the host and port to use when connecting to Redis (optional).
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
-
 # Specify the full Redis URL for connecting (optional).
+
 # If set, this takes precedence over the REDIS_HOST and REDIS_PORT settings.
 # REDIS_URL = 'redis://user:password@ip:port' # google
 
 # Custom redis client parameters (i.e.: socket timeout, etc.)
-#REDIS_PARAMS  = {}
-# Use custom redis client class.
+#
 #REDIS_PARAMS['redis_cls'] = 'myproject.RedisClient'
 
 # If True, it uses redis' ``SPOP`` operation. You have to use the ``SADD``
@@ -175,3 +131,4 @@ MONGODB_URI = 'mongodb://localhost:27017'
 MONGODB_DATABASE = BOT_NAME
 MONGODB_COLLECTION = '%s_items' % BOT_NAME
 MONGODB_BUFFER_DATA = 10
+"""
