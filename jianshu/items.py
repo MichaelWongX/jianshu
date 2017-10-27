@@ -38,10 +38,7 @@ class Article(scrapy.Item):
     title = Field()
     content = Field(output_processor=Join())
     pub_time = Field()
-    readed = Field()
-    content_len = Field()
-    comments_count = Field()
-    likes_count = Field()
+    note = Field()
     article_url = Field()
 
 

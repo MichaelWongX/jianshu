@@ -6,6 +6,7 @@ from ..items import Article,Author,JianshuItemLoader
 from scrapy.loader import ItemLoader
 from scrapy import Request
 import re
+import json
 
 
 class JianshulaSpider(CrawlSpider):
@@ -28,11 +29,11 @@ class JianshulaSpider(CrawlSpider):
         loader.add_xpath('content', '//div[@class="show-content"]//p/text()')
         meta = loader.nested_xpath('//div[@class="meta"]')
         meta.add_xpath('pub_time', './span[@class="publish-time"]/text()')
-        meta.add_xpath('content_len', './span[@class="wordage"]/text()')
-        meta.add_xpath('readed', './span[@class="view-count"]/text()')
-        meta.add_xpath('comments_count','./span[@class="comments-count"]/text')
-        meta.add_xpath('likes_count', './span[@class="likes-count"]/text')
         loader.add_value('article_url', response.url)
+        tmp = response.xpath('//script[@data-name="page-data"]/text()').extract_first()
+        if tmp:
+            data = json.loads(tmp).get('note')
+            loader.add_value('note',data)
         return loader.load_item()
 
     def parse_author(self,response):
@@ -79,7 +80,7 @@ class JianshulaSpider(CrawlSpider):
                     url = response.urljoin('?page=%d' % i)
                     yield Request(url=url,callback=self.parse_fans)
             else:
-                self.logger.log('INFO', 'can not find the following num %s' % response.url)
+                self.logger.info('can not find the following num %s' % response.url)
 
         item = Author()
         item['author_id'] = response.xpath('//div[@class="title"]/a/@href').extract_first()
